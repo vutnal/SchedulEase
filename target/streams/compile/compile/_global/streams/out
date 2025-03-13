@@ -1,0 +1,63 @@
+[0m[[0m[31merror[0m] [0m[0m/Users/vutnal/Downloads/SchedulEase/src/main/scala/MainApp.scala:9:24: not found: type ActorSystem[0m
+[0m[[0m[31merror[0m] [0m[0m  implicit val system: ActorSystem = ActorSystem("appointment-system")[0m
+[0m[[0m[31merror[0m] [0m[0m                       ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/vutnal/Downloads/SchedulEase/src/main/scala/MainApp.scala:9:38: not found: value ActorSystem[0m
+[0m[[0m[31merror[0m] [0m[0m  implicit val system: ActorSystem = ActorSystem("appointment-system")[0m
+[0m[[0m[31merror[0m] [0m[0m                                     ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/vutnal/Downloads/SchedulEase/src/main/scala/MainApp.scala:10:30: not found: type Materializer[0m
+[0m[[0m[31merror[0m] [0m[0m  implicit val materializer: Materializer = Materializer(system)[0m
+[0m[[0m[31merror[0m] [0m[0m                             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/vutnal/Downloads/SchedulEase/src/main/scala/MainApp.scala:10:45: not found: value Materializer[0m
+[0m[[0m[31merror[0m] [0m[0m  implicit val materializer: Materializer = Materializer(system)[0m
+[0m[[0m[31merror[0m] [0m[0m                                            ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/vutnal/Downloads/SchedulEase/src/main/scala/services/AppointmentService.scala:7:30: not found: type Database[0m
+[0m[[0m[31merror[0m] [0m[0mclass AppointmentService(db: Database)(implicit ec: ExecutionContext) {[0m
+[0m[[0m[31merror[0m] [0m[0m                             ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/vutnal/Downloads/SchedulEase/src/main/scala/routes/AppointmentRoutes.scala:13:15: not found: type Route[0m
+[0m[[0m[31merror[0m] [0m[0m  val routes: Route =[0m
+[0m[[0m[31merror[0m] [0m[0m              ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/vutnal/Downloads/SchedulEase/src/main/scala/MainApp.scala:17:23: not found: value Http[0m
+[0m[[0m[31merror[0m] [0m[0m  val bindingFuture = Http().newServerAt("localhost", 8080).bind(routes)[0m
+[0m[[0m[31merror[0m] [0m[0m                      ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/vutnal/Downloads/SchedulEase/src/main/scala/database/AppointmentsTable.scala:6:38: not found: type Table[0m
+[0m[[0m[31merror[0m] [0m[0mclass Appointments(tag: Tag) extends Table[Appointment](tag, "appointments") {[0m
+[0m[[0m[31merror[0m] [0m[0m                                     ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/vutnal/Downloads/SchedulEase/src/main/scala/database/AppointmentsTable.scala:6:25: not found: type Tag[0m
+[0m[[0m[31merror[0m] [0m[0mclass Appointments(tag: Tag) extends Table[Appointment](tag, "appointments") {[0m
+[0m[[0m[31merror[0m] [0m[0m                        ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/vutnal/Downloads/SchedulEase/src/main/scala/database/AppointmentsTable.scala:6:57: no arguments allowed for nullary constructor Object: (): Object[0m
+[0m[[0m[31merror[0m] [0m[0mclass Appointments(tag: Tag) extends Table[Appointment](tag, "appointments") {[0m
+[0m[[0m[31merror[0m] [0m[0m                                                        ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/vutnal/Downloads/SchedulEase/src/main/scala/database/AppointmentsTable.scala:7:12: not found: value column[0m
+[0m[[0m[31merror[0m] [0m[0m  def id = column[Long]("id", O.PrimaryKey, O.AutoInc)[0m
+[0m[[0m[31merror[0m] [0m[0m           ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/vutnal/Downloads/SchedulEase/src/main/scala/database/AppointmentsTable.scala:7:31: not found: value O[0m
+[0m[[0m[31merror[0m] [0m[0m  def id = column[Long]("id", O.PrimaryKey, O.AutoInc)[0m
+[0m[[0m[31merror[0m] [0m[0m                              ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/vutnal/Downloads/SchedulEase/src/main/scala/database/AppointmentsTable.scala:7:45: not found: value O[0m
+[0m[[0m[31merror[0m] [0m[0m  def id = column[Long]("id", O.PrimaryKey, O.AutoInc)[0m
+[0m[[0m[31merror[0m] [0m[0m                                            ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/vutnal/Downloads/SchedulEase/src/main/scala/database/AppointmentsTable.scala:8:21: not found: value column[0m
+[0m[[0m[31merror[0m] [0m[0m  def description = column[String]("description")[0m
+[0m[[0m[31merror[0m] [0m[0m                    ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/vutnal/Downloads/SchedulEase/src/main/scala/database/AppointmentsTable.scala:9:25: not found: value column[0m
+[0m[[0m[31merror[0m] [0m[0m  def appointmentTime = column[LocalDateTime]("appointment_time")[0m
+[0m[[0m[31merror[0m] [0m[0m                        ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/vutnal/Downloads/SchedulEase/src/main/scala/database/AppointmentsTable.scala:10:24: not found: value column[0m
+[0m[[0m[31merror[0m] [0m[0m  def customerNumber = column[Long]("customer_number")[0m
+[0m[[0m[31merror[0m] [0m[0m                       ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/vutnal/Downloads/SchedulEase/src/main/scala/database/AppointmentsTable.scala:16:22: not found: value TableQuery[0m
+[0m[[0m[31merror[0m] [0m[0m  val appointments = TableQuery[Appointments][0m
+[0m[[0m[31merror[0m] [0m[0m                     ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/vutnal/Downloads/SchedulEase/src/main/scala/routes/AppointmentRoutes.scala:26:24: type mismatch;[0m
+[0m[[0m[31merror[0m] [0m[0m found   : Seq[models.Appointment][0m
+[0m[[0m[31merror[0m] [0m[0m required: akka.http.scaladsl.marshalling.ToResponseMarshallable[0m
+[0m[[0m[31merror[0m] [0m[0m              complete(list)[0m
+[0m[[0m[31merror[0m] [0m[0m                       ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/vutnal/Downloads/SchedulEase/src/main/scala/routes/AppointmentRoutes.scala:31:20: could not find implicit value for parameter um: akka.http.scaladsl.unmarshalling.FromRequestUnmarshaller[models.Appointment][0m
+[0m[[0m[31merror[0m] [0m[0m          entity(as[Appointment]) { appointment =>[0m
+[0m[[0m[31merror[0m] [0m[0m                   ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/vutnal/Downloads/SchedulEase/src/main/scala/routes/AppointmentRoutes.scala:39:40: could not find implicit value for parameter um: akka.http.scaladsl.unmarshalling.FromRequestUnmarshaller[models.Appointment][0m
+[0m[[0m[31merror[0m] [0m[0m          (path(LongNumber) & entity(as[Appointment])) { (id, updatedAppointment) =>[0m
+[0m[[0m[31merror[0m] [0m[0m                                       ^[0m
+[0m[[0m[31merror[0m] [0m[0m20 errors found[0m
