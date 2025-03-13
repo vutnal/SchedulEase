@@ -38,14 +38,14 @@ The system supports creating, updating, retrieving, and deleting appointments, a
 3. **Run Database Migrations**: 
 - Use the AppointmentsTable definition to create the appointments table. You can generate the schema from Slick or manually define it:
    
-        ```postgres-sql
+   ```postgres-sql
              CREATE TABLE appointments (
                  id SERIAL PRIMARY KEY,
                  description TEXT NOT NULL,
                  appointment_time TIMESTAMP NOT NULL,
                  customer_number BIGINT NOT NULL
-            )
-        ```
+            );
+       ```
 4. **Run the Application**:
    ```bash
    sbt run
