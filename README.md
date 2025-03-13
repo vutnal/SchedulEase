@@ -22,7 +22,7 @@ The system supports creating, updating, retrieving, and deleting appointments, a
 ## Setup Instructions
 1. **Clone the Repository**:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/vutnal/SchedulEase
    cd ScheduleEase
 
 2. **Configure the Database**: 
@@ -45,7 +45,7 @@ The system supports creating, updating, retrieving, and deleting appointments, a
                  appointment_time TIMESTAMP NOT NULL,
                  customer_number BIGINT NOT NULL
             );
-       ```
+ ```
 4. **Run the Application**:
    ```bash
    sbt run
