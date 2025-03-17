@@ -1,27 +1,20 @@
-ThisBuild / scalaVersion := "2.13.12"
+name := "ScheduleManagementSystem"
 
-lazy val root = (project in file("."))
-  .settings(
-    name := "ScheduleEase",
-    version := "1.0",
-    libraryDependencies ++= Seq(
-      // Akka HTTP
-      "com.typesafe.akka" %% "akka-http" % "10.2.10",
-      "com.typesafe.akka" %% "akka-stream" % "2.6.20",
-      // Slick
-      "com.typesafe.slick" %% "slick" % "3.4.1",
-      "com.typesafe.slick" %% "slick-hikaricp" % "3.4.1",
-      // PostgreSQL Driver
-      "org.postgresql" % "postgresql" % "42.6.0",
-      // JSON Serialization
-      "de.heikoseeberger" %% "akka-http-circe" % "1.40.0-RC3",
-      "io.circe" %% "circe-generic" % "0.15.0-M1",
-      // Logging
-      "ch.qos.logback" % "logback-classic" % "1.4.7",
-      "org.scalatest" %% "scalatest" % "3.2.13" % Test,
-      "org.scalatestplus" %% "scalacheck-1-15" % "3.2.12.0-RC2" % Test,
-      "com.h2database" % "h2" % "2.1.214" % Test
-    ),
-      scalaSource in Test := baseDirectory.value / "src/test/scala"
+version := "1.0"
 
+scalaVersion := "2.13.11"
+
+libraryDependencies ++= Seq(
+  "com.typesafe.akka" %% "akka-http" % "10.2.10",
+  "com.typesafe.akka" %% "akka-stream" % "2.6.20",
+  "com.typesafe.akka" %% "akka-http-spray-json" % "10.2.10",
+  "com.typesafe.slick" %% "slick" % "3.4.1",
+  "com.typesafe.slick" %% "slick-hikaricp" % "3.4.1",
+  "org.postgresql" % "postgresql" % "42.6.0",
+  "org.quartz-scheduler" % "quartz" % "2.3.2",
+  "io.spray" %% "spray-json" % "1.3.6",
+  "org.scalatest" %% "scalatest" % "3.2.16" % Test,
+  "com.typesafe.akka" %% "akka-http-testkit" % "10.2.10" % Test,
+  "com.h2database" % "h2" % "2.3.232" % Test,
+"com.typesafe.akka" %% "akka-testkit" % "2.6.20" % Test
 )

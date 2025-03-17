@@ -1,27 +1,25 @@
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
-import akka.stream.Materializer
-import database.DatabaseConfig
-import services.AppointmentService
-import routes.AppointmentRoutes
-import scala.concurrent.ExecutionContext
-import scala.io.StdIn
+import akka.stream.ActorMaterializer
+import routes.ScheduleRoutes
+import quartz.QuartzScheduler
 
-object MainApp extends App {
-  implicit val system: ActorSystem = ActorSystem("appointment-system")
-  implicit val materializer: Materializer = Materializer(system)
-  implicit val executionContext: ExecutionContext = system.dispatcher
+object Main extends App {
+  implicit val system: ActorSystem = ActorSystem("ScheduleSystem")
+  implicit val materializer: ActorMaterializer = ActorMaterializer()
+  implicit val ec: scala.concurrent.ExecutionContext = scala.concurrent.ExecutionContext.global
 
-  val db = DatabaseConfig.db
-  val service = new AppointmentService(db)
-  val routes = new AppointmentRoutes(service).routes
+  // Start Quartz Scheduler
+  QuartzScheduler.initialize(ScheduleRoutes.db)
 
-  val bindingFuture = Http().newServerAt("localhost", 8080).bind(routes)
-  println("Server running at http://localhost:8080/")
-  println("Press RETURN to stop...")
+  // Start Akka HTTP server
+  val bindingFuture = Http().newServerAt("localhost", 8080).bind(ScheduleRoutes.routes)
+  println("Server started at http://localhost:8080/")
 
-  StdIn.readLine() // Wait for user input to terminate
-  bindingFuture
-    .flatMap(_.unbind())
-    .onComplete(_ => system.terminate())
+  // Graceful shutdown
+  sys.addShutdownHook {
+    QuartzScheduler.stopScheduler()
+    bindingFuture.flatMap(_.unbind())
+    system.terminate()
+  }
 }
