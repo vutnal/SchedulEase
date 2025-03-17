@@ -1,6 +1,6 @@
 # Appointment Management System
 
-This project is a **Scala-based appointment management system** built using **Akka HTTP** for the REST API, **Slick** for database interaction, and **PostgreSQL** as the database backend. 
+This project is a **Scala-based appointment management system** built using **Akka HTTP** for the REST API, **Slick** for database interaction, and **PostgreSQL** as the database backend.
 The system supports creating, updating, retrieving, and deleting appointments, along with powerful filtering, sorting, and pagination features.
 
 ## Features
@@ -11,7 +11,6 @@ The system supports creating, updating, retrieving, and deleting appointments, a
 - PostgreSQL for persistent data storage
 - Slick for type-safe database interaction
 - Easy-to-configure database connection
-
 
 ## Prerequisites
 - **Scala** (2.13 or later)
@@ -24,102 +23,128 @@ The system supports creating, updating, retrieving, and deleting appointments, a
    ```bash
    git clone https://github.com/vutnal/SchedulEase
    cd ScheduleEase
-
-2. **Configure the Database**: 
-- Create a PostgreSQL Database:
-  ```postgres-sql
-  CREATE DATABASE appointmentdb;
-  ```
-  - Update the database credentials in src/main/resources/application.conf:
-      ```hocon
-      slick.dbs.default.db.user = "your_username"
-      slick.dbs.default.db.password = "your_password"
-      ```
-3. **Run Database Migrations**: 
-- Use the AppointmentsTable definition to create the appointments table. You can generate the schema from Slick or manually define it:
-   
-   ```postgres-sql
-             CREATE TABLE appointments (
-                 id SERIAL PRIMARY KEY,
-                 description TEXT NOT NULL,
-                 appointment_time TIMESTAMP NOT NULL,
-                 customer_number BIGINT NOT NULL
-            );
- ```
-4. **Run the Application**:
-   ```bash
-   sbt run
    ```
-    The application will start on http://localhost:8080.
-
+2. **Configure the Database**:
+   - Create a PostgreSQL Database:
+     ```sql
+     CREATE DATABASE appointmentdb;
+     ```
+   - Update the database credentials in `src/main/resources/application.conf`:
+     ```properties
+     slick.dbs.default.db.user = "your_username"
+     slick.dbs.default.db.password = "your_password"
+     ```
+3. **Run Database Migrations**:
+     Use the `ScheduleTable` definition to create the `schedules` table. You can generate the schema from Slick or manually define it:
+```sql
+       CREATE TABLE schedules (
+         id SERIAL PRIMARY KEY,
+         title TEXT NOT NULL,
+         description TEXT NOT NULL,
+         date DATE NOT NULL,
+         start_time TIME NOT NULL,
+         end_time TIME NOT NULL,
+         customer_name TEXT NOT NULL,
+         executed BOOLEAN NOT NULL,
+         creation_time TIMESTAMP NOT NULL
+       );
+   ```
+       
+4. **Run the Application**:
+```bash
+    sbt run
+   ```
+The application will start on http://localhost:8080.  
+   
 ## API Endpoints
-1. **Create Appointment**:
+1. **Create Appointment**:  
    - Method: POST
-   - URL: http://localhost:8080/appointments
+   - URL: http://localhost:8080/schedules
    - Request Body:
-     ```json
-     {
-       "description": "Dentist Appointment",
-       "appointmentTime": "2021-08-01T10:00:00",
-       "customerNumber": 1234567890
-     }
-     ```
-2. **Get All Appointments**:
+   ```json
+   {
+   "title": "Dentist Appointment",
+   "description": "Regular check-up",
+   "date": "2021-08-01",
+   "startTime": "10:00:00",
+   "endTime": "11:00:00",
+   "customerName": "John Doe",
+   "executed": false,
+   "creationTime": "2021-07-31T12:00:00"
+   }
+   ```
+2. **Get All Appointments**:  
    - Method: GET
-   - URL: http://localhost:8080/appointments
-   - Query Parameters:
-     - customerNumber (optional): Filter by customer number
-     - sortBy (optional): Sort by appointmentTime or customerNumber
-     - sortOrder (optional): asc (default) or desc
-     - page (optional): Page number (default: 1)
-     - pageSize (optional): Number of items per page (default: 10)
-3. **Update Appointment**: 
+   - URL: http://localhost:8080/schedules
+
+3. **Update Appointment**:  
    - Method: PUT
-   - URL: http://localhost:8080/appointments/{id}
+   - URL: http://localhost:8080/schedules
    - Request Body:
-     ```json
-     {
-       "description": "Dentist Appointment",
-       "appointmentTime": "2021-08-01T10:00:00",
-       "customerNumber": 1234567890
-     }
-     ```
-   - Response: Appointment with ID: 1 updated successfully
-4. **Delete Appointment**: 
+```json
+   {
+   "id": 1,
+   "title": "Updated Dentist Appointment",
+   "description": "Updated check-up",
+   "date": "2021-08-01",
+   "startTime": "10:00:00",
+   "endTime": "11:00:00",
+   "customerName": "John Doe",
+   "executed": false,
+   "creationTime": "2021-07-31T12:00:00"
+   }
+   ```
+   - Response: Schedule updated successfully
+
+4. **Delete Appointment**:  
    - Method: DELETE
-   - URL: http://localhost:8080/appointments/{id}
-   - Response: Appointment with ID: 1 deleted successfully
+   - URL: http://localhost:8080/schedules?id=1
+   - Response: Schedule deleted successfully
 
 ## Testing the API
-You can test the API using tools like Postman, cURL, or any HTTP client of your choice.
-
-**Example cURL Commands**
-- Create Appointment:
-   ```bash
-  curl -X POST http://localhost:8080/appointments \
-       -H "Content-Type: application/json" \
-       -d '{"description": "Dentist Appointment", "appointmentTime": "2021-08-01T10:00:00", "customerNumber": 1234567890}'
+   You can test the API using tools like Postman, cURL, or any HTTP client of your choice.  Example cURL Commands  
+   **Create Appointment**:
+```bash
+   curl -X POST http://localhost:8080/schedules \
+   -H "Content-Type: application/json" \
+   -d '{
+   "title": "Dentist Appointment",
+   "description": "Regular check-up",
+   "date": "2021-08-01",
+   "startTime": "10:00:00",
+   "endTime": "11:00:00",
+   "customerName": "John Doe",
+   "executed": false,
+   "creationTime": "2021-07-31T12:00:00"
+   }'
   ```
-- Get All Appointments:
-   ```bash
-    curl -X GET http://localhost:8080/appointments
-    ```
-- Update Appointment:
-    ```bash
-     curl -X PUT http://localhost:8080/appointments/1 \
-            -H "Content-Type: application/json" \
-            -d '{"description": "Dentist Appointment", "appointmentTime": "2021-08-01T10:00:00", "customerNumber": 1234567890}'
-     ```
-- Delete Appointment:
-    ```bash
-    curl -X DELETE http://localhost:8080/appointments/1
-    ```
+   **Get All Appointments**:  
+```bash
+   curl -X GET http://localhost:8080/schedules
+   Update Appointment:  
+   curl -X PUT http://localhost:8080/schedules \
+   -H "Content-Type: application/json" \
+   -d '{
+   "id": 1,
+   "title": "Updated Dentist Appointment",
+   "description": "Updated check-up",
+   "date": "2021-08-01",
+   "startTime": "10:00:00",
+   "endTime": "11:00:00",
+   "customerName": "John Doe",
+   "executed": false,
+   "creationTime": "2021-07-31T12:00:00"
+   }'
+   ```
+
+   **Delete Appointment**:  
+```bash   
+curl -X DELETE http://localhost:8080/schedules?id=1
+   ```
 ## Future Enhancements
-Add email/SMS notifications for reminders.
-
-Implement user authentication and authorization.
-
-Add unit and integration tests.
-
+   Enable quartz service clustering
+   Implement user authentication and authorization.
+   Add unit and integration tests. 
+   
 ## License
-This project is open-source and licensed under the MIT License.
+   This project is open-source and licensed under the MIT License.
