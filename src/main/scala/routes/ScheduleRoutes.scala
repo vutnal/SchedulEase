@@ -45,16 +45,19 @@ object ScheduleRoutes {
           }
         },
         get {
-          parameters('limit.as[Int].?, 'offset.as[Int].?, 'customerName.?, 'sort.?) { (limit, offset, customerName, sort) =>
+          parameters('pageSize.as[Int].?(50), 'page.as[Int].?(1), 'sortBy.?, 'sortOrder.?(Some("asc")), 'customerName.?)
+          { (pageSize, page, sortBy, sortOrder, customerName) =>
             val baseQuery = schedules.filterOpt(customerName) { (schedule, name) =>
-              schedule.customerName === name
+              schedule.customerName == name
             }
-            val sortedQuery = sort match {
-              case Some("asc") => baseQuery.sortBy(_.creationTime.asc)
-              case Some("desc") => baseQuery.sortBy(_.creationTime.desc)
+            val sortedQuery = (sortBy, sortOrder) match {
+              case (Some("creationTime"), Some("asc")) => baseQuery.sortBy(_.creationTime.asc)
+              case (Some("creationTime"), Some("desc")) => baseQuery.sortBy(_.creationTime.desc)
+              case (Some("customerName"), Some("asc")) => baseQuery.sortBy(_.customerName.asc)
+              case (Some("customerName"), Some("desc")) => baseQuery.sortBy(_.customerName.desc)
               case _ => baseQuery
             }
-            val paginatedQuery = sortedQuery.drop(offset.getOrElse(0)).take(limit.getOrElse(10))
+            val paginatedQuery = sortedQuery.drop((page.getOrElse(1) - 1) * pageSize.getOrElse(50)).take(pageSize.getOrElse(50))
             onComplete(db.run(paginatedQuery.result)) {
               case scala.util.Success(data) => complete(ScheduleSeq(data))
               case scala.util.Failure(ex) => complete(StatusCodes.InternalServerError, ex.getMessage)
