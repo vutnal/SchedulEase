@@ -45,9 +45,20 @@ object ScheduleRoutes {
           }
         },
         get {
-          onComplete(db.run(schedules.result)) {
-            case scala.util.Success(data) => complete(ScheduleSeq(data))
-            case scala.util.Failure(ex) => complete(StatusCodes.InternalServerError, ex.getMessage)
+          parameters('limit.as[Int].?, 'offset.as[Int].?, 'customerName.?, 'sort.?) { (limit, offset, customerName, sort) =>
+            val baseQuery = schedules.filterOpt(customerName) { (schedule, name) =>
+              schedule.customerName === name
+            }
+            val sortedQuery = sort match {
+              case Some("asc") => baseQuery.sortBy(_.creationTime.asc)
+              case Some("desc") => baseQuery.sortBy(_.creationTime.desc)
+              case _ => baseQuery
+            }
+            val paginatedQuery = sortedQuery.drop(offset.getOrElse(0)).take(limit.getOrElse(10))
+            onComplete(db.run(paginatedQuery.result)) {
+              case scala.util.Success(data) => complete(ScheduleSeq(data))
+              case scala.util.Failure(ex) => complete(StatusCodes.InternalServerError, ex.getMessage)
+            }
           }
         },
         put {
